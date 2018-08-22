@@ -9,7 +9,7 @@ use Illuminate\Http\Request;
 class BetsController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Return a listing of bets.
      *
      * @return \Illuminate\Http\Response
      */
@@ -23,28 +23,19 @@ class BetsController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
+     *  Create a new bet.
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request)
     {
-        //
+
+        $bet = Bets::create($request->all());
+        return response()->json($bet, 200);
     }
 
     /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Return user`s bets.
+     * Return a listing of bets for user
      *
      * @param User $user
      * @return \Illuminate\Http\Response
@@ -52,10 +43,6 @@ class BetsController extends Controller
      */
     public function show(User $user)
     {
-//        $user = User::find($userId);
-//        if (is_null($user)) {
-//            return response()->json(["message" => "can't find  user id: " . $user["id"]], 404);
-//        }
         $bets = $user->bets;
         if ($bets->count() < 1){
             return response()->json(["message" => "can't find bets for user id: " . $user["id"]], 404);
@@ -63,37 +50,4 @@ class BetsController extends Controller
         return response()->json($bets, 200);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Bets  $bets
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Bets $bets)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Bets  $bets
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Bets $bets)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Bets  $bets
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Bets $bets)
-    {
-        //
-    }
 }

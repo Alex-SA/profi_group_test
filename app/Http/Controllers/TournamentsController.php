@@ -20,13 +20,15 @@ class TournamentsController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Create a new tournament.
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create( Request $request)
     {
-        //
+
+        $tournament = Tournaments::create($request->all());
+        return response()->json($tournament, 200);
     }
 
     /**

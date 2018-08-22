@@ -10,6 +10,11 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Tournaments extends Model
 {
+
+    protected $fillable = [
+        'tournament_types_id', 'price_to_join',	'time_of_duel',	'game_types_id'
+    ];
+
     /**
      * Get type for tournament
      *
