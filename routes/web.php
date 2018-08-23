@@ -10,20 +10,40 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
-
-
+/**
+ * test client: REST API for auth through social networks
+ */
 Route::group(['middleware' => ['web']], function () {
     Route::get('social', function () {
         return view('social');
     });
 });
 
+/**
+ * test client: REST API for credential authentication
+ */
+Route::get('signup', function () {
+    return view('signup');
+});
+Route::get('signin', function () {
+    return view('signin');
+});
+
+/**
+ * test client: REST API for tournaments and bets
+ */
+Route::get('tournaments', function () {
+    return view('tournaments');
+});
+Route::get('bets', function () {
+    return view('bets');
+});
+
+
 Route::get('/', function () {
     return view('welcome');
 });
-
 Auth::routes();
-
 Route::get('/home', 'HomeController@index')->name('home');
 
 

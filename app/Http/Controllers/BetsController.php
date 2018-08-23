@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Bets;
 use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class BetsController extends Controller
 {
@@ -30,7 +31,17 @@ class BetsController extends Controller
     public function create(Request $request)
     {
 
-        $bet = Bets::create($request->all());
+        $data = $request->all();
+        $validator = Validator::make($data, [
+            'user_id' => 'required|numeric|exists:users,id',
+            'bet_types_id' => 'required|numeric|exists:bet_types,id',
+            'amount' => 'required|numeric|min:0',
+            'game_types_id' => 'required|numeric|exists:game_types,id',
+        ]);
+        if ($validator->fails()){
+            return response()->json($validator->errors(),400);
+        }
+        $bet = Bets::create($data);
         return response()->json($bet, 200);
     }
 

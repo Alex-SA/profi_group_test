@@ -1,6 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
+    <h2>Test REST API: Authorization by Social Networks </h2>
     <div class="container">
         <div class="row">
             <div class="col-md-12 row-block">
@@ -17,3 +18,4 @@
         </div>
     </div>
 @endsection
+

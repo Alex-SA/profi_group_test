@@ -10,7 +10,12 @@ use Illuminate\Support\Facades\Validator;
 
 class ApiController extends Controller
 {
-
+    /**
+     * Create a new user with credentials
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function register(Request $request){
 
         $data = $request->all();
@@ -18,6 +23,7 @@ class ApiController extends Controller
             'name' => 'required|string|max:255|unique:users',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:6|confirmed',
+            'g-recaptcha-response' => 'required|captcha',
         ]);
         if ($validator->fails()){
             return response()->json($validator->errors(),400);
@@ -28,12 +34,22 @@ class ApiController extends Controller
     }
 
     /**
+     *
+     * User login by credentials
+     *
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse
      */
     public function login(Request $request){
 
         $data = $request->all();
+        $validator = Validator::make($data, [
+            'g-recaptcha-response' => 'required|captcha',
+        ]);
+        if ($validator->fails()){
+            return response()->json($validator->errors(),400);
+        }
+
         $identityField = '';
         $identityValue = '';
         if (isset($data["email"]) && $data["email"] != ""){

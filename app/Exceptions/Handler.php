@@ -48,7 +48,20 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $exception)
     {
-//        dd($exception->getMessage());
+        if ( $exception instanceof \PDOException )
+        {
+            $response = [
+                'errors' => 'Sorry, something went wrong. '
+            ];
+            switch ($exception->getCode()) {
+                case 2002:
+    //Error 2002: no connection to DB
+                    $response = [
+                        'errors' => 'Could not connect to DB.'
+                    ];
+            }
+            return response()->json($response, 500);
+        }
         if ($request->wantsJson()) {
             $response = [
                 'errors' => 'Sorry, something went wrong. ' . $exception->getMessage()

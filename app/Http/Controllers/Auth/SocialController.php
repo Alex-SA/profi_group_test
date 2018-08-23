@@ -14,8 +14,10 @@ use Auth;
 class SocialController extends Controller
 {
     /**
-     * Create a new controller instance.
+     *  User login by social networks
      *
+     * @param $social
+     * @return \Illuminate\Http\JsonResponse
      */
     public function redirectToSocial($social)
     {
@@ -32,8 +34,10 @@ class SocialController extends Controller
     }
 
     /**
-     * Create a new controller instance.
+     * User authorization from social networks
      *
+     * @param $social
+     * @return \Illuminate\Http\JsonResponse
      */
     public function handleSocialCallback($social)
     {
@@ -49,20 +53,16 @@ class SocialController extends Controller
 
             $userModel = new User;
             $createdUser = $userModel->addNewFromSocial($create);
-//            dd('Two!', $createdUser);
 //            Auth::loginUsingId($createdUser->id, true);
 //            return redirect()->route('home');
             return response()->json($createdUser, 200);
 
         } catch (Exception $e) {
-//            dd('Three!', $e);
             return response()->json([
                     "message" => "can't authenticate user from social network: " . $social,
                     "error" => $e->getMessage()
                 ], 401);
-
 //            return redirect('api/auth/social/$social');
-
         }
     }
 }

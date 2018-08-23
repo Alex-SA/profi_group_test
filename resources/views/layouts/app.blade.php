@@ -12,6 +12,7 @@
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    @yield('google_captcha_js')
 </head>
 <body>
     <div id="app">
@@ -76,5 +77,6 @@
 
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}"></script>
+    @yield('test_api_js')
 </body>
 </html>

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Tournaments;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class TournamentsController extends Controller
 {
@@ -27,7 +28,17 @@ class TournamentsController extends Controller
     public function create( Request $request)
     {
 
-        $tournament = Tournaments::create($request->all());
+        $data = $request->all();
+        $validator = Validator::make($data, [
+            'tournament_types_id' => 'required|numeric|exists:tournament_types,id',
+            'price_to_join' => 'required|numeric|min:0',
+            'time_of_duel' => 'required|numeric|min:0',
+            'game_types_id' => 'required|numeric|exists:game_types,id',
+        ]);
+        if ($validator->fails()){
+            return response()->json($validator->errors(),400);
+        }
+        $tournament = Tournaments::create($data);
         return response()->json($tournament, 200);
     }
 
