@@ -32,13 +32,8 @@ Route::get('signin', function () {
 /**
  * test client: REST API for tournaments and bets
  */
-Route::get('tournaments', function () {
-    return view('tournaments');
-});
-Route::get('bets', function () {
-    return view('bets');
-});
-
+Route::get('/tournaments', 'TestTournamentsAPIController@index');
+Route::get('/bets', 'TestBetsAPIController@index');
 
 Route::get('/', function () {
     return view('welcome');

@@ -4,7 +4,7 @@
             formId += "";
             let data = {};
 
-            let elements =  document.querySelectorAll(`[id^="${formId + '_'}"]`)
+            let elements =  document.querySelectorAll(`[id^="${formId + '_'}"]`);
             for (let el of Array.from(elements)) {
                 if (el.type === "checkbox" && !el.checked) continue;
                 data[el.id.substr(formId.length + 1)] = el.value;
@@ -12,11 +12,38 @@
             return data;
         }
 
-        function authAction(id) {
-            let data = getData(id);
+        function getAction(formID, userID = ''){
+            let data = getData(formID);
+            let url = data["url"];
+            if (userID) {
+                url = url + '/' + data["user_id"];
+            }
+            $.ajaxSetup({
+                headers: {
+                    'Accept': 'application/json',
+                },
+            });
+            $.get(
+                url,
+                function(data) {
+//                    show success results
+                    console.log(data);
+                })
+                .fail(function(data, textStatus, xhr) {
+//                    show errors
+                    console.log("error", data.status);
+                    console.log("STATUS: "+xhr);
+                    console.log(data.responseJSON);
+                });
+        }
+
+        function postAction(formID, captcha) {
+            let data = getData(formID);
             let url = data["url"];
 //            add google captcha response to data
-            data["g-recaptcha-response"] = $("#" + "g-recaptcha-response").val();
+            if (captcha) {
+                data["g-recaptcha-response"] = $("#" + "g-recaptcha-response").val();
+            }
 //            send api query
             $.ajaxSetup({
                 headers: {
@@ -38,6 +65,8 @@
                     console.log(data.responseJSON);
                 });
 //            refresh google captcha
-            grecaptcha.reset();
+            if (captcha) {
+                grecaptcha.reset();
+            }
         }
     </script>

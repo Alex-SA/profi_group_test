@@ -11,7 +11,7 @@
                 <label for="signin_password">Password</label>
                 <input type="password" name="password" id="signin_password" class="form-control">
                 <div style="margin: 10px 0px;" class="g-recaptcha" data-sitekey="{{env('NOCAPTCHA_SITEKEY')}}"></div>
-                <input type="button" class="btn btn-primary" onclick="authAction('signin')" value="Login">
+                <input type="button" class="btn btn-primary" onclick="postAction('signin', 'true')" value="Login">
             </form>
         </div>
     </div>

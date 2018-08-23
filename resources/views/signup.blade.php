@@ -15,7 +15,7 @@
                 <label for="signup_password_confirmation">Password Confirmation</label>
                 <input type="password" name="password_confirmation" id="signup_password_confirmation" class="form-control">
                 <div style="margin: 10px 0px;" class="g-recaptcha" data-sitekey="{{env('NOCAPTCHA_SITEKEY')}}"></div>
-                <input type="button" class="btn btn-primary"  onclick="authAction('signup')" value="SignUp">
+                <input type="button" class="btn btn-primary"  onclick="postAction('signup', 'true')" value="SignUp">
                 <label style="display: block">You can see results of test in console</label>
             </form>
         </div>
