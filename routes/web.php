@@ -28,6 +28,9 @@ Route::get('signup', function () {
 Route::get('signin', function () {
     return view('signin');
 });
+Route::get('logout', function () {
+    return view('logout');
+});
 
 /**
  * test client: REST API for tournaments and bets

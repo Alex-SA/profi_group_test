@@ -1,20 +1,21 @@
 @extends('layouts.app')
 
 @section('content')
-    <h2>Test REST API: Bets</h2>
-    <h4 class="text-danger">You can see results of test in console</h4>
+    @component('test')
+        Bets
+    @endcomponent
     <div class="container">
         <div class="row">
             <form class="form-group" >
                 <div class="form-group">
                     <h3 class="text-primary">Create New Bet</h3>
                     <input type="hidden" id="bc_url" value="{{ url('api/bet/create') }}">
-                    <label for="bc_user_id">User</label>
-                    <select id="bc_user_id" class="form-control">
-                        @foreach($users as $user)
-                            <option value="{{ $user->id }}">{{ $user->name }}</option>
-                        @endforeach
-                    </select>
+                    {{--<label for="bc_user_id">User</label>--}}
+                    {{--<select id="bc_user_id" class="form-control">--}}
+                        {{--@foreach($users as $user)--}}
+                            {{--<option value="{{ $user->id }}">{{ $user->name }}</option>--}}
+                        {{--@endforeach--}}
+                    {{--</select>--}}
                     <label for="bc_bet_types_id">Type</label>
                     <select id="bc_bet_types_id" class="form-control">
                         @foreach($betTypes as $betType)

@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\TournamentsResource;
 use App\Models\Tournaments;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use JWTAuth;
 
 class TournamentsController extends Controller
 {
@@ -15,9 +17,11 @@ class TournamentsController extends Controller
      */
     public function index()
     {
-        return response()->json( Tournaments::with('tournament_types')
-            ->with('game_types')
-            ->get(), 200);
+//  Get Tournaments
+        $tournaments = Tournaments::with('tournament_types')->with('game_types')->paginate(3);
+// Return collection of Tournaments as a resource
+        return TournamentsResource::collection($tournaments);
+
     }
 
     /**
@@ -27,8 +31,10 @@ class TournamentsController extends Controller
      */
     public function create( Request $request)
     {
-
+//        Get user from token
+        $user = JWTAuth::parseToken()->toUser();
         $data = $request->all();
+//        validate tournament`s data
         $validator = Validator::make($data, [
             'tournament_types_id' => 'required|numeric|exists:tournament_types,id',
             'price_to_join' => 'required|numeric|min:0',
@@ -38,63 +44,9 @@ class TournamentsController extends Controller
         if ($validator->fails()){
             return response()->json($validator->errors(),400);
         }
+//        Create a new tournament
         $tournament = Tournaments::create($data);
-        return response()->json($tournament, 200);
+        return response()->json(['tournament' => $tournament, 'user' => $user], 200);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Tournaments  $tournaments
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Tournaments $tournaments)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Tournaments  $tournaments
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Tournaments $tournaments)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Tournaments  $tournaments
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Tournaments $tournaments)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Tournaments  $tournaments
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Tournaments $tournaments)
-    {
-        //
-    }
 }

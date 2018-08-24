@@ -18,6 +18,8 @@
             if (userID) {
                 url = url + '/' + data["user_id"];
             }
+//            add token to request
+            url = url + '/?token=' + localStorage.getItem('token');
             $.ajaxSetup({
                 headers: {
                     'Accept': 'application/json',
@@ -28,6 +30,10 @@
                 function(data) {
 //                    show success results
                     console.log(data);
+                    if (data.hasOwnProperty("logout")) {
+//            delete user token from LocalStorage
+                        localStorage.removeItem('token');
+                    }
                 })
                 .fail(function(data, textStatus, xhr) {
 //                    show errors
@@ -40,6 +46,8 @@
         function postAction(formID, captcha) {
             let data = getData(formID);
             let url = data["url"];
+//            add token to request
+            url = url + '/?token=' + localStorage.getItem('token');
 //            add google captcha response to data
             if (captcha) {
                 data["g-recaptcha-response"] = $("#" + "g-recaptcha-response").val();
@@ -57,6 +65,10 @@
                 function(data) {
 //                    show success results
                     console.log(data);
+                    if (data.hasOwnProperty("token")) {
+//            save user token to LocalStorage
+                        localStorage.setItem('token', data.token);
+                    }
                 })
                 .fail(function(data, textStatus, xhr) {
 //                    show errors

@@ -30,19 +30,32 @@ Route::group(['middleware' => ['web']], function () {
 /**
  * authentication routes for credential
  */
-Route::post('auth/signup', 'Auth\ApiController@register');
-Route::post('auth/login', 'Auth\ApiController@login');
+Route::post('auth/signup', 'Auth\ApiController@register')->name('api_register');
+Route::post('auth/login', 'Auth\ApiController@login')->name('api_login');
 
 /**
- * routes for tournaments
+ * add middleware 'auth.jwt' for routes group
+ *
+ * 'auth.jwt' - validating user token
+ *  Only authorized user can view and create tournaments and bets
  */
-Route::get('tournaments', 'TournamentsController@index');
-Route::post('tournament/create', 'TournamentsController@create');
+Route::group(['middleware' => ['auth.jwt']], function () {
+    /**
+     * routes for tournaments
+     */
+    Route::get('tournaments', 'TournamentsController@index');
+    Route::post('tournament/create', 'TournamentsController@create');
 
-/**
- * routes for bets
- */
-Route::get('bets', 'BetsController@index');
-Route::get('bets/user/{user}', 'BetsController@show');
-Route::post('bet/create', 'BetsController@create');
+    /**
+     * routes for bets
+     */
+    Route::get('bets', 'BetsController@index');
+    Route::get('bets/user/{user}', 'BetsController@show');
+    Route::post('bet/create', 'BetsController@create');
+
+    /**
+     * route for logout user
+     */
+    Route::get('auth/logout', 'Auth\ApiController@logout')->name('api_logout');
+});
 

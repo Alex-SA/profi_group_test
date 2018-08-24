@@ -1,7 +1,9 @@
 @extends('layouts.app')
 
 @section('content')
-    <h2>Test REST API: Authorization by Social Networks </h2>
+    @component('test')
+        Authorization by Social Networks
+    @endcomponent
     <div class="container">
         <div class="row">
             <div class="col-md-12 row-block">

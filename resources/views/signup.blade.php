@@ -1,7 +1,9 @@
 @extends('layouts.app')
 
 @section('content')
-    <h2>Test REST API: Register</h2>
+    @component('test')
+        Register
+    @endcomponent
     <div class="container">
         <div class="row">
             <form class="form-group" >
