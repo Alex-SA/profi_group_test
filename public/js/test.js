@@ -35,11 +35,6 @@ function getAction(formID, userID = ''){
         function(data) {
 //                    show success results
             console.log(data);
-            if (data.hasOwnProperty("logout")) {
-//            delete user token from LocalStorage
-                localStorage.removeItem('token');
-                document.getElementById("is_valid_token").style.display = 'none';
-            }
         })
         .fail(function(data, textStatus, xhr) {
 //                    show errors
@@ -47,6 +42,12 @@ function getAction(formID, userID = ''){
             console.log("STATUS: "+xhr);
             console.log(data.responseJSON);
         });
+
+    if (formID == 'logout') {
+//            delete user token from LocalStorage
+        localStorage.removeItem('token');
+        document.getElementById("is_valid_token").style.display = 'none';
+    }
 }
 
 function postAction(formID, captcha) {
@@ -87,4 +88,29 @@ function postAction(formID, captcha) {
     if (captcha) {
         grecaptcha.reset();
     }
+}
+
+function getAPITokenForSocialClient(url, tokenFromSocial){
+    console.log('---------- From backend -----------');
+    $.ajaxSetup({
+        headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+        },
+    });
+    $.post(
+        url,
+        JSON.stringify({token: tokenFromSocial}),
+        function(data) {
+            console.log(data);
+            if (data.hasOwnProperty("token")) {
+//            save user token to LocalStorage (token from backend)
+                localStorage.setItem('token', data.token);
+            }
+        })
+        .fail(function(data, textStatus, xhr) {
+            console.log("error", data.status);
+            console.log("STATUS: "+xhr);
+            console.log(data.responseJSON);
+        });
 }

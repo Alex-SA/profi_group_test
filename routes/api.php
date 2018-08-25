@@ -28,6 +28,7 @@ Route::get('/auth/social/{social}', 'Auth\SocialController@redirectToSocial');
 Route::get('/auth/social/{social}/callback', 'Auth\SocialController@handleSocialCallback');
 
 Route::post('/auth/google', 'Auth\SocialController@google');
+Route::post('/auth/facebook', 'Auth\SocialController@facebook');
 
 
 /**

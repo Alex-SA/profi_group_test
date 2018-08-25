@@ -14,7 +14,9 @@
             </div>
         </div>
     </div>
+@endsection
 
+@section('test_api_js')
     <script>
         window.fbAsyncInit = function() {
             FB.init({
@@ -36,15 +38,22 @@
         function loginFB(){
             FB.login(function(response) {
                 if (response.authResponse) {
-                    console.log('Welcome!  Fetching your information.... ');
-                    FB.api('/me', function(response) {
-                        console.log('Good to see you, ' + response.name + '.');
-                    });
+                    let fbToken = response.authResponse.accessToken;
+                    console.log('------- From Facebook ------- ');
+                    console.log('FB token: ' + fbToken);
+//                    FB.api('/me?fields=id,name,email', function(response) {
+//                        console.log('Good to see you, ' + response.name + '.');
+//                        console.log('Good to see mail, ' + response.email + '.');
+//                    });
+                    getAPITokenForSocialClient('/api/auth/facebook', fbToken);
                 } else {
                     console.log('User cancelled login or did not fully authorize.');
-                }
-            });
+                }},
+                {scope: 'email'}
+            );
         }
     </script>
-@endsection
+    @component('components.test_js')
+    @endcomponent
 
+@endsection

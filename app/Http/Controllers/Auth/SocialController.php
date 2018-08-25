@@ -90,7 +90,23 @@ class SocialController extends Controller
         $createdUser = $userModel->addNewFromSocial($create);
         $token = JWTAuth::fromUser($createdUser);
         return response()->json(['user' => $createdUser, 'token' => $token], 200);
+    }
 
-//        dd($response);
+    public function facebook(Request $request){
+        $data = $request->all();
+        $client = new Client();
+        $url = config('social.facebook_apis_tokeninfo') . $data["token"];
+        $response = $client->get($url);
+        $response = json_decode($response->getBody()->getContents(), true);
+        $create['name'] = $response["name"];
+        $create['email'] = $response["email"];
+        $create['social_id'] = 'facebook' . "::" . $response["id"];
+        $create['password'] = '';
+//        return response()->json(['response' => $response, 'create' => $create], 200);
+        $userModel = new User;
+        $createdUser = $userModel->addNewFromSocial($create);
+        $token = JWTAuth::fromUser($createdUser);
+        return response()->json(['user' => $createdUser, 'token' => $token], 200);
+
     }
 }

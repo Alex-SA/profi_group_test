@@ -22,8 +22,8 @@ Route::get('/google', function () {
     return view('forms.social.google');
 });
 // FB does not work without https !
-Route::get('/fb', function () {
-    return view('forms.social.fb');
+Route::get('/facebook', function () {
+    return view('forms.social.facebook');
 });
 
 
