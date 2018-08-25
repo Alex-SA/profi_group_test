@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-    @component('test')
+    @component('components.test')
         Tournaments
     @endcomponent
     <div class="container">
@@ -42,6 +42,6 @@
 @endsection
 
 @section('test_api_js')
-    @component('js.auth_js')
+    @component('components.test_js')
     @endcomponent
 @endsection

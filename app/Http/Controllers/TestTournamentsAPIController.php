@@ -12,6 +12,6 @@ class TestTournamentsAPIController extends Controller
     {
         $gameTypes = GameTypes::all();
         $tournamentTypes = TournamentTypes::all();
-        return view('tournaments', compact('gameTypes', 'tournamentTypes'));
+        return view('forms.tournaments', compact('gameTypes', 'tournamentTypes'));
     }
 }

@@ -14,22 +14,30 @@
  * test client: REST API for auth through social networks
  */
 Route::group(['middleware' => ['web']], function () {
-    Route::get('social', function () {
-        return view('social');
+    Route::get('/social', function () {
+        return view('forms.social.social');
     });
 });
+Route::get('/google', function () {
+    return view('forms.social.google');
+});
+// FB does not work without https !
+Route::get('/fb', function () {
+    return view('forms.social.fb');
+});
+
 
 /**
  * test client: REST API for credential authentication
  */
-Route::get('signup', function () {
-    return view('signup');
+Route::get('/signup', function () {
+    return view('forms.auth.signup');
 });
-Route::get('signin', function () {
-    return view('signin');
+Route::get('/signin', function () {
+    return view('forms.auth.signin');
 });
-Route::get('logout', function () {
-    return view('logout');
+Route::get('/logout', function () {
+    return view('forms.auth.logout');
 });
 
 /**
@@ -39,9 +47,10 @@ Route::get('/tournaments', 'TestTournamentsAPIController@index');
 Route::get('/bets', 'TestBetsAPIController@index');
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('test_api');
 });
-Auth::routes();
-Route::get('/home', 'HomeController@index')->name('home');
+
+//Auth::routes();
+//Route::get('/home', 'HomeController@index')->name('home');
 
 

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Types\BetTypes;
 use App\Models\Types\GameTypes;
 use App\User;
+use Auth;
 use Illuminate\Http\Request;
 
 class TestBetsAPIController extends Controller
@@ -17,6 +18,6 @@ class TestBetsAPIController extends Controller
         $users = User::all();
         $gameTypes = GameTypes::all();
         $betTypes = BetTypes::all();
-        return view('bets', compact('users', 'gameTypes', 'betTypes'));
+        return view('forms.bets', compact('users', 'gameTypes', 'betTypes'));
     }
 }

@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-    @component('test')
+    @component('components.test')
         Authorization by Social Networks
     @endcomponent
     <div class="container">

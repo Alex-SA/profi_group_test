@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-    @component('test')
+    @component('components.test')
         Login
     @endcomponent
     <div class="container">
@@ -10,6 +10,8 @@
                 <input type="hidden" id="signin_url" value="{{ url('api/auth/login') }}">
                 <label for="signin_email">E-mail</label>
                 <input type="email" name="email" id="signin_email" class="form-control">
+                <label for="signin_email">OR Name</label>
+                <input type="name" name="name" id="signin_name" class="form-control">
                 <label for="signin_password">Password</label>
                 <input type="password" name="password" id="signin_password" class="form-control">
                 <div style="margin: 10px 0px;" class="g-recaptcha" data-sitekey="{{env('NOCAPTCHA_SITEKEY')}}"></div>
@@ -17,6 +19,8 @@
             </form>
         </div>
     </div>
+    {{--<button onclick="getSocial('{{ url('api/auth/social/github') }}')">Git</button>--}}
+
 @endsection
 
 @section('google_captcha_js')
@@ -24,6 +28,6 @@
 @endsection
 
 @section('test_api_js')
-    @component('js.auth_js')
+    @component('components.test_js')
     @endcomponent
 @endsection

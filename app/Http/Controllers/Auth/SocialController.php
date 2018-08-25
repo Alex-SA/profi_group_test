@@ -6,9 +6,12 @@ namespace App\Http\Controllers\Auth;
 
 use App\User;
 use App\Http\Controllers\Controller;
+use GuzzleHttp\Client;
+use Illuminate\Http\Request;
 use Socialite;
 use Exception;
 use Auth;
+use JWTAuth;
 
 
 class SocialController extends Controller
@@ -22,10 +25,8 @@ class SocialController extends Controller
     public function redirectToSocial($social)
     {
         try {
-            return Socialite::driver($social)->redirect();
+            return Socialite::driver($social)->stateless()->redirect();
         } catch (Exception $e) {
-
-//            dd('Four!', $e);
             return response()->json([
                 "message" => "can't connect to social network: " . $social,
                 "error" => $e->getMessage()
@@ -42,7 +43,7 @@ class SocialController extends Controller
     public function handleSocialCallback($social)
     {
         try {
-            $user = Socialite::driver($social)->user();
+            $user = Socialite::driver($social)->stateless()->user();
             $create['name'] = $user->getName();
             if (!isset($create['name'])) {
                 $create['name'] = $user->getNickname();
@@ -55,6 +56,7 @@ class SocialController extends Controller
             $createdUser = $userModel->addNewFromSocial($create);
 //            Auth::loginUsingId($createdUser->id, true);
 //            return redirect()->route('home');
+            $createdUser["token"] = JWTAuth::fromUser($createdUser);
             return response()->json($createdUser, 200);
 
         } catch (Exception $e) {
@@ -62,7 +64,33 @@ class SocialController extends Controller
                     "message" => "can't authenticate user from social network: " . $social,
                     "error" => $e->getMessage()
                 ], 401);
-//            return redirect('api/auth/social/$social');
         }
+    }
+
+    public function google(Request $request){
+//        TODO: check errors
+        $data = $request->all();
+        $client = new Client();
+        $url = config('social.googleapis_tokeninfo');
+        $response = $client->get(
+            $url,
+            [
+                'query' => [
+                    'id_token' => $data["token"],
+                ]
+            ]
+        );
+        $response = json_decode($response->getBody()->getContents(), true);
+        $create['name'] = $response["name"];
+        $create['email'] = $response["email"];
+        $create['social_id'] = 'google' . "::" . $response["sub"];
+        $create['password'] = '';
+
+        $userModel = new User;
+        $createdUser = $userModel->addNewFromSocial($create);
+        $token = JWTAuth::fromUser($createdUser);
+        return response()->json(['user' => $createdUser, 'token' => $token], 200);
+
+//        dd($response);
     }
 }
