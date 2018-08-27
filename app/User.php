@@ -18,7 +18,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password', 'social_id',
+        'name', 'email', 'password', 'social_id', 'nickname',
     ];
 
     /**
@@ -49,6 +49,11 @@ class User extends Authenticatable
             return static::create($input);
         }
         return $check;
+    }
+
+    public function addNew($input)
+    {
+        return static::create($input);
     }
 
     /**

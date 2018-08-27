@@ -65,7 +65,7 @@ class Handler extends ExceptionHandler
         if ( $exception instanceof \PDOException )
         {
             $response = [
-                'errors' => 'Sorry, something went wrong. '
+                'errors' => 'Sorry, something went wrong. ' . $exception->getMessage()
             ];
             switch ($exception->getCode()) {
                 case 2002:

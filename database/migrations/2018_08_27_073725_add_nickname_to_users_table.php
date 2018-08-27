@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AddNewColumnUsersTable extends Migration
+class AddNicknameToUsersTable extends Migration
 {
     /**
      * Run the migrations.
@@ -14,7 +14,7 @@ class AddNewColumnUsersTable extends Migration
     public function up()
     {
         Schema::table("users", function (Blueprint $table) {
-            $table->string('social_id')->nullable();
+            $table->string('nickname')->after('email')->nullable();
         });
     }
 
@@ -26,7 +26,7 @@ class AddNewColumnUsersTable extends Migration
     public function down()
     {
         Schema::table("users", function (Blueprint $table) {
-            $table->dropColumn('social_id');
+            $table->dropColumn('nickname');
         });
     }
 }

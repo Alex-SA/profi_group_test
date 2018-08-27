@@ -10,8 +10,8 @@
                 <input type="hidden" id="signin_url" value="{{ url('api/auth/login') }}">
                 <label for="signin_email">E-mail</label>
                 <input type="email" name="email" id="signin_email" class="form-control">
-                <label for="signin_email">OR Name</label>
-                <input type="name" name="name" id="signin_name" class="form-control">
+                <label for="signin_nickname">OR Nickname</label>
+                <input type="text" name="nickname" id="signin_nickname" class="form-control">
                 <label for="signin_password">Password</label>
                 <input type="password" name="password" id="signin_password" class="form-control">
                 <div style="margin: 10px 0px;" class="g-recaptcha" data-sitekey="{{env('NOCAPTCHA_SITEKEY')}}"></div>

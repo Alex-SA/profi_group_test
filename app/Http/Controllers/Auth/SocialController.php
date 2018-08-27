@@ -35,7 +35,7 @@ class SocialController extends Controller
     }
 
     /**
-     * User authorization from social networks
+     * User authorization from social networks (work only with laravel app)
      *
      * @param $social
      * @return \Illuminate\Http\JsonResponse
@@ -67,46 +67,54 @@ class SocialController extends Controller
         }
     }
 
+    /**
+     * User authorization from Google
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function google(Request $request){
-//        TODO: check errors
-        $data = $request->all();
-        $client = new Client();
-        $url = config('social.googleapis_tokeninfo');
-        $response = $client->get(
-            $url,
-            [
-                'query' => [
-                    'id_token' => $data["token"],
-                ]
-            ]
-        );
-        $response = json_decode($response->getBody()->getContents(), true);
-        $create['name'] = $response["name"];
-        $create['email'] = $response["email"];
-        $create['social_id'] = 'google' . "::" . $response["sub"];
-        $create['password'] = '';
-
-        $userModel = new User;
-        $createdUser = $userModel->addNewFromSocial($create);
-        $token = JWTAuth::fromUser($createdUser);
-        return response()->json(['user' => $createdUser, 'token' => $token], 200);
+        return $this->getTokenForUserFromSocial('google', $request->all(), 'sub');
     }
 
+    /**
+     * User authorization from Facebook
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function facebook(Request $request){
-        $data = $request->all();
+        return $this->getTokenForUserFromSocial('facebook', $request->all(), 'id');
+    }
+
+    /**
+     * @param $social - name of Social network
+     * @param $data - response data from Social network
+     * @param $idField  - name 'id' field in  response from Social network
+     * @return \Illuminate\Http\JsonResponse
+     */
+    protected function getTokenForUserFromSocial($social, $data, $idField){
+
+        //        TODO: check errors
         $client = new Client();
-        $url = config('social.facebook_apis_tokeninfo') . $data["token"];
+        $url = config('social.' . $social . '_apis_tokeninfo');
+        if ($url == '') {
+            return response()->json(['error' => "can't find api tokeninfo ulr for " . $social ], 500);
+        }
+        $url = $url . $data["token"];
+// Get user data from Social Networks by token
         $response = $client->get($url);
         $response = json_decode($response->getBody()->getContents(), true);
-        $create['name'] = $response["name"];
-        $create['email'] = $response["email"];
-        $create['social_id'] = 'facebook' . "::" . $response["id"];
+        $create['name'] = $response['name'];
+        $create['email'] = $response['email'];
+        $create['social_id'] = $social . "::" . $response[$idField];
         $create['password'] = '';
-//        return response()->json(['response' => $response, 'create' => $create], 200);
         $userModel = new User;
+//        add new user if does not exists
         $createdUser = $userModel->addNewFromSocial($create);
+//        get JWTAuth token for return to frontend
         $token = JWTAuth::fromUser($createdUser);
+//        return user data & user token
         return response()->json(['user' => $createdUser, 'token' => $token], 200);
-
     }
 }

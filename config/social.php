@@ -13,6 +13,6 @@ return [
     |
     */
 
-    'googleapis_tokeninfo' => env('GOOGLE_API_TOKENINFO', 'https://www.googleapis.com/oauth2/v3/tokeninfo'),
+    'google_apis_tokeninfo' => env('GOOGLE_API_TOKENINFO', 'https://www.googleapis.com/oauth2/v3/tokeninfo?id_token='),
     'facebook_apis_tokeninfo' => env('FACEBOOK_API_TOKENINFO', 'https://graph.facebook.com/me?fields=id,name,email&access_token='),
 ];

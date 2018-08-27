@@ -23,7 +23,7 @@ class ApiController extends Controller
         $data = $request->all();
 //        validate signup data
         $validator = Validator::make($data, [
-            'name' => 'required|string|max:255|unique:users',
+            'nickname' => 'required|string|max:255|unique:users',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:6|confirmed',
             'g-recaptcha-response' => 'required|captcha',
@@ -31,6 +31,7 @@ class ApiController extends Controller
         if ($validator->fails()){
             return response()->json($validator->errors(),400);
         }
+        $data['name'] = $data['nickname'];
 //      password hashing
         $data['password'] = bcrypt($data['password']);
 //      add new  user
@@ -61,11 +62,11 @@ class ApiController extends Controller
         $loginField = '';
         if (isset($data["email"]) && $data["email"] != ""){
             $loginField = 'email';
-        } else if (isset($data["name"]) && $data["name"] != "") {
-            $loginField = 'name';
+        } else if (isset($data["nickname"]) && $data["nickname"] != "") {
+            $loginField = 'nickname';
         }
         if (!$loginField) {
-            return response()->json(["error" => "email or name can't be empty"], 401);
+            return response()->json(["error" => "email or nickname can't be empty"], 401);
         }
 
 //      generate a user's token
@@ -79,24 +80,6 @@ class ApiController extends Controller
         }
 //        return token of user
         return response()->json(['token' => $token],200);
-
-//        $identityField = '';
-//        $identityValue = '';
-//        if (isset($data["email"]) && $data["email"] != ""){
-//            $identityField = 'email';
-//            $identityValue = $data["email"];
-//        } else if (isset($data["name"]) && $data["name"] != "") {
-//            $identityField = 'name';
-//            $identityValue = $data["name"];
-//        }
-//        if ($identityField == "") {
-//            return response()->json(["message" => "email or name can't be empty"], 401);
-//        }
-//        $user = User::where($identityField,  $identityValue)->where('password', '<>', '')->first();
-//        if (is_null($user) || !Hash::check($data['password'], $user["password"])){
-//            return response()->json(["message" => "bad email or password "],401);
-//        }
-//        return response()->json($user,200);
     }
 
     /**
@@ -107,6 +90,7 @@ class ApiController extends Controller
     public function logout()
     {
         $user = JWTAuth::parseToken()->toUser();
+//        Invalidate user token
         JWTAuth::invalidate();
         return response()->json([
             'logout' => 'User: '. $user["name"] .' logged out successfully.'

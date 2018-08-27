@@ -8,8 +8,8 @@
         <div class="row">
             <form class="form-group" >
                 <input type="hidden" id="signup_url" value="{{ url('api/auth/signup') }}">
-                <label for="signup_name">Name</label>
-                <input type="text" name="name" id="signup_name" class="form-control">
+                <label for="signup_nickname">Nickname</label>
+                <input type="text" name="nickname" id="signup_nickname" class="form-control">
                 <label for="signup_email">E-mail</label>
                 <input type="email" name="email" id="signup_email" class="form-control">
                 <label for="signup_password">Password</label>
