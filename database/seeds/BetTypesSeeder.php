@@ -6,6 +6,5 @@ class BetTypesSeeder extends AcmeSeeder
     protected $data = [
             ['name' => 'win'],
             ['name' => 'lose'],
-            ['name' => 'test'],
         ];
 }

@@ -20,15 +20,12 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 /**
  * authentication routes for social networks
  */
-//Route::group(['middleware' => ['web']], function () {
-//    Route::get('auth/social/{social}', 'Auth\SocialController@redirectToSocial');
-//    Route::get('auth/social/{social}/callback', 'Auth\SocialController@handleSocialCallback');
-//});
-Route::get('/auth/social/{social}', 'Auth\SocialController@redirectToSocial');
-Route::get('/auth/social/{social}/callback', 'Auth\SocialController@handleSocialCallback');
-
 Route::post('/auth/google', 'Auth\SocialController@google');
 Route::post('/auth/facebook', 'Auth\SocialController@facebook');
+
+//    !!! work only with laravel app
+//Route::get('/auth/social/{social}', 'Auth\SocialController@redirectToSocial');
+//Route::get('/auth/social/{social}/callback', 'Auth\SocialController@handleSocialCallback');
 
 
 /**

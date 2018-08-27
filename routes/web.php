@@ -13,11 +13,6 @@
 /**
  * test client: REST API for auth through social networks
  */
-Route::group(['middleware' => ['web']], function () {
-    Route::get('/social', function () {
-        return view('forms.social.social');
-    });
-});
 Route::get('/google', function () {
     return view('forms.social.google');
 });
@@ -25,6 +20,12 @@ Route::get('/google', function () {
 Route::get('/facebook', function () {
     return view('forms.social.facebook');
 });
+
+//Route::group(['middleware' => ['web']], function () {
+//    Route::get('/social', function () {
+//        return view('forms.social.social');
+//    });
+//});
 
 
 /**

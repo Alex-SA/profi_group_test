@@ -50,7 +50,7 @@
                     <label for="bus_user_id">User</label>
                     <select id="bus_user_id" class="form-control">
                         @foreach($users as $user)
-                            <option value="{{ $user->id }}">{{ $user->name }}</option>
+                            <option value="{{ $user->id }}">{{ $user->name }} @if ($user->nickname != '') ({{$user->nickname}}) @endif </option>
                         @endforeach
                     </select>
                     <input type="button" class="btn btn-primary"  onclick="getAction('bus', 'true')" value="Go!">
