@@ -41,8 +41,8 @@
             // The ID token you need to pass to your backend:
             let id_token = googleUser.getAuthResponse().id_token;
             console.log("Google Token: " + id_token);
-            getAPITokenForGoogleClient('/api/auth/google', id_token)
-
+//            getAPITokenForGoogleClient('/api/auth/google', id_token)
+            getAPITokenForSocialClient('/api/auth/google', id_token)
         }
 
         function signOut() {
@@ -52,31 +52,33 @@
             });
         }
 
-        function getAPITokenForGoogleClient(url, token){
-            console.log('---------- From backend -----------');
-            $.ajaxSetup({
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Accept': 'application/json',
-                },
-            });
-            $.post(
-                url,
-                JSON.stringify({token: token}),
-                function(data) {
-                    console.log(data);
-                    if (data.hasOwnProperty("token")) {
-//            save user token to LocalStorage (token from backend)
-                        localStorage.setItem('token', data.token);
-                    }
-                })
-                .fail(function(data, textStatus, xhr) {
-                    console.log("error", data.status);
-                    console.log("STATUS: "+xhr);
-                    console.log(data.responseJSON);
-                });
-        }
+        {{--function getAPITokenForGoogleClient(url, token){--}}
+            {{--console.log('---------- From backend -----------');--}}
+            {{--$.ajaxSetup({--}}
+                {{--headers: {--}}
+                    {{--'Content-Type': 'application/json',--}}
+                    {{--'Accept': 'application/json',--}}
+                {{--},--}}
+            {{--});--}}
+            {{--$.post(--}}
+                {{--url,--}}
+                {{--JSON.stringify({token: token}),--}}
+                {{--function(data) {--}}
+                    {{--console.log(data);--}}
+                    {{--if (data.hasOwnProperty("token")) {--}}
+{{--//            save user token to LocalStorage (token from backend)--}}
+                        {{--localStorage.setItem('token', data.token);--}}
+                    {{--}--}}
+                {{--})--}}
+                {{--.fail(function(data, textStatus, xhr) {--}}
+                    {{--console.log("error", data.status);--}}
+                    {{--console.log("STATUS: "+xhr);--}}
+                    {{--console.log(data.responseJSON);--}}
+                {{--});--}}
+        {{--}--}}
 
     </script>
+    @component('components.test_js')
+    @endcomponent
 
 @endsection

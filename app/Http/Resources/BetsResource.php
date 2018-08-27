@@ -18,6 +18,9 @@ class BetsResource extends Resource
         return parent::toArray($request);
     }
 
+/**
+ *      Example of adding other information to the collection
+ */
     public function with($request)
     {
 // Get user data
