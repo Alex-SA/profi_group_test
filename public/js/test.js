@@ -35,12 +35,14 @@ function getAction(formID, userID = ''){
         function(data) {
 //                    show success results
             console.log(data);
+            showResults(data, '');
         })
         .fail(function(data, textStatus, xhr) {
 //                    show errors
             console.log("error", data.status);
             console.log("STATUS: "+xhr);
             console.log(data.responseJSON);
+            showResults('', data.responseJSON.error);
         });
 
     if (formID == 'logout') {
@@ -76,6 +78,9 @@ function postAction(formID, captcha) {
 //            save user token to LocalStorage
                 localStorage.setItem('token', data.token);
                 document.getElementById("is_valid_token").style.display = 'inline';
+                showPostResult('Authorization was successful.', '')
+            } else {
+                showPostResult('A new record was added.', '')
             }
         })
         .fail(function(data, textStatus, xhr) {
@@ -83,6 +88,7 @@ function postAction(formID, captcha) {
             console.log("error", data.status);
             console.log("STATUS: "+xhr);
             console.log(data.responseJSON);
+            showPostResult('', data.responseJSON)
         });
 //            refresh google captcha
     if (captcha) {
@@ -113,4 +119,64 @@ function getAPITokenForSocialClient(url, tokenFromSocial){
             console.log("STATUS: "+xhr);
             console.log(data.responseJSON);
         });
+}
+
+// show bets and tournaments
+function showResults(response, error) {
+    if (error !== '') {
+        // show errors
+        document.getElementById('show_results').innerHTML = '<h4 style="color: red">ERROR: ' + error +'</h4>';
+        return;
+    }
+    if (typeof response.data === 'undefined'  || response.data.length < 1){
+        document.getElementById('show_results').innerHTML = '';
+        return;
+    }
+    let cols = [];
+    let resTable = '<h3>Results:</h3><table class="table table-bordered"><thead><tr>';
+    let item = response.data[0];
+    for (let k of Object.keys(item)) {
+        // show table header
+        if (typeof(item[k]) !== "object"){
+            resTable += '<th scope="col">' + k + '</th>';
+            cols.push(k);
+        }
+    }
+    resTable += '</tr></thead><tbody>';
+    for (let item of response.data) {
+        // show table content
+        resTable += '<tr>';
+        for (let c of cols) {
+            let relationName = '';
+            let relation = c.replace(/_id$/, "");
+            // related tables: add name
+            if (relation !== c){
+                if (typeof relation.name !== 'undefined'){
+                    relationName = ' (' + relation.name + ')';
+                } else if (typeof item[relation] !== 'undefined'){
+                    relationName = ' (' + item[relation].name + ')';
+                }
+            }
+            resTable += '<td>' + item[c] + relationName + '</td>'
+        }
+        resTable += '</tr>';
+    }
+    resTable += '</tbody></table>';
+    document.getElementById('show_results').innerHTML = resTable;
+}
+
+function showPostResult(response, errors) {
+    if (typeof errors === 'object' && errors !== null) {
+        // show errors
+        let errorMessage = '';
+        for (let k of Object.keys(errors)) {
+            errorMessage += '<li>' + errors[k] + '</li>';
+        }
+        document.getElementById('post_result').innerHTML = '<h4 style="color: red">ERRORS:<br>' + errorMessage +'</h4>';
+        return;
+    }
+    if (response !== '') {
+        document.getElementById('post_result').innerHTML = '<h4 style="color: green">' + response +'</h4>';
+        return;
+    }
 }

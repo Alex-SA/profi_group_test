@@ -28,7 +28,7 @@ class BetsResource extends Resource
         return array(
             'version' => '0.0.1',
             'mode' => 'test bets API',
-            'user_data' => new UsersResource($user)
+            'user' => new UsersResource($user)
         );
     }
 }

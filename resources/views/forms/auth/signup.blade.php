@@ -21,6 +21,9 @@
                 <label style="display: block">You can see results of test in console</label>
             </form>
         </div>
+        <div class="row">
+            <div id="post_result"></div>
+        </div>
     </div>
 @endsection
 

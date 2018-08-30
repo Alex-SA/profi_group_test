@@ -11,6 +11,10 @@
                 <input type="button" class="btn btn-primary" onclick="getAction('logout', '')" value="Logout">
             </form>
         </div>
+        <hr>
+        <div class="row">
+            <div id="show_results"></div>
+        </div>
     </div>
 @endsection
 

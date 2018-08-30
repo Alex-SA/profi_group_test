@@ -29,6 +29,9 @@
                 <input type="button" class="btn btn-primary"  onclick="postAction('tc', '')" value="Create New Tournament">
                 <label style="display: block">You can see results of test in console</label>
             </form>
+            <div class="row">
+                <div id="post_result"></div>
+            </div>
             <hr>
             <div class="row">
                 <form class="form-group" >
@@ -37,6 +40,9 @@
                     <input type="button" class="btn btn-primary"  onclick="getAction('ts')" value="Go!">
                 </form>
             </div>
+        </div>
+        <div class="row">
+            <div id="show_results"></div>
         </div>
     </div>
 @endsection

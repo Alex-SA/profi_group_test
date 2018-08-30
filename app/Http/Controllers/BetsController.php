@@ -27,7 +27,7 @@ class BetsController extends Controller
             ->with('game_types')
             ->orderBy('game_types_id')
             ->orderBy('amount')
-            ->paginate(3);
+            ->paginate(100);
         return BetsResource::collection($bets);
 //        return response()->json( Bets::with('bet_types')
 //            ->with('game_types')

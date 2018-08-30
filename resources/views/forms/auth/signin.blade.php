@@ -18,6 +18,9 @@
                 <input type="button" class="btn btn-primary" onclick="postAction('signin', 'true')" value="Login">
             </form>
         </div>
+        <div class="row">
+            <div id="post_result"></div>
+        </div>
     </div>
     {{--<button onclick="getSocial('{{ url('api/auth/social/github') }}')">Git</button>--}}
 

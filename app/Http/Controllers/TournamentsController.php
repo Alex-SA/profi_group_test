@@ -18,7 +18,7 @@ class TournamentsController extends Controller
     public function index()
     {
 //  Get Tournaments
-        $tournaments = Tournaments::with('tournament_types')->with('game_types')->paginate(3);
+        $tournaments = Tournaments::with('tournament_types')->with('game_types')->paginate(100);
 // Return collection of Tournaments as a resource
         return TournamentsResource::collection($tournaments);
 

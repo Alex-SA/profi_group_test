@@ -33,6 +33,9 @@
                 </div>
                 <input type="button" class="btn btn-primary"  onclick="postAction('bc', '')" value="Go!">
             </form>
+            <div class="row">
+                <div id="post_result"></div>
+            </div>
             <hr>
             <div class="row">
                 <form class="form-group" >
@@ -56,6 +59,10 @@
                     <input type="button" class="btn btn-primary"  onclick="getAction('bus', 'true')" value="Go!">
                 </form>
             </div>
+        </div>
+        <hr>
+        <div class="row">
+            <div id="show_results"></div>
         </div>
     </div>
 @endsection
